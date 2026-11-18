@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ product.name }} | ShopKart</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            color: #212121;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #131921;
+            color: white;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            color: #ffcc00;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            background: #232f3e;
+            padding: 15px 5%;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 25px;
+        }
+
+        /* MESSAGES */
+
+        .messages {
+            width: 90%;
+            margin: 15px auto;
+        }
+
+        .message {
+            background: #e3f2fd;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+        }
+
+        /* PRODUCT DETAILS */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 35px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .product-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
+            background: #fafafa;
+            border-radius: 10px;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .no-image {
+            font-size: 100px;
+        }
+
+        .product-info h1 {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .rating {
+            color: #e69500;
+            margin: 15px 0;
+        }
+
+        .price {
+            font-size: 30px;
+            color: #2874f0;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .description {
+            line-height: 1.7;
+            color: #555;
+            margin: 20px 0;
+        }
+
+        .stock {
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .available {
+            color: green;
+        }
+
+        .unavailable {
+            color: red;
+        }
+
+        /* BUTTONS */
+
+        .add-button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            padding: 15px;
+            background: #ffcc00;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .add-button:hover {
+            background: #f0b800;
+        }
+
+        .disabled-button {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .cart-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2874f0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 25px 5%;
+            color: #2874f0;
+            text-decoration: none;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #131921;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 700px) {
+
+            .container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .product-info h1 {
+                font-size: 24px;
+            }
+
+            .product-image {
+                min-height: 250px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <a href="{% url 'product_list' %}" class="logo">
+            ShopKart
+        </a>
+
+        <a href="{% url 'cart_detail' %}">
+            🛒 My Cart ({{ cart_count|default:0 }})
+        </a>
+
+    </header>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <a href="{% url 'product_list' %}">
+            Home
+        </a>
+
+        <a href="{% url 'product_list' %}#products">
+            All Products
+        </a>
+
+        <a href="/admin/">
+            Admin
+        </a>
+
+    </nav>
+
+    <!-- MESSAGES -->
+
+    {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+                <div class="message">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+    <!-- BACK LINK -->
+
+    <a href="{% url 'product_list' %}" class="back-link">
+        ← Continue Shopping
+    </a>
+
+    <!-- PRODUCT DETAILS -->
+
+    <div class="container">
+
+        <!-- PRODUCT IMAGE -->
+
+        <div class="product-image">
+
+            {% if product.image %}
+
+                <img
+                    src="{{ product.image.url }}"
+                    alt="{{ product.name }}"
+                >
+
+            {% else %}
+
+                <div class="no-image">
+                    📦
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <!-- PRODUCT INFORMATION -->
+
+        <div class="product-info">
+
+            <h1>
+                {{ product.name }}
+            </h1>
+
+            <div class="rating">
+                ⭐⭐⭐⭐⭐
+            </div>
+
+            <p class="price">
+                ₹{{ product.price }}
+            </p>
+
+            <h3>
+                Product Description
+            </h3>
+
+            <p class="description">
+                {{ product.description|linebreaksbr }}
+            </p>
+
+            <!-- STOCK -->
+
+            {% if product.stock > 0 %}
+
+                <p class="stock available">
+                    In Stock: {{ product.stock }} available
+                </p>
+
+                <!-- ADD TO CART -->
+
+                <form method="POST"
+                      action="{% url 'add_to_cart' product.id %}">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="add-button">
+                        🛒 Add to Cart
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <p class="stock unavailable">
+                    Sorry! This product is currently unavailable.
+                </p>
+
+                <button class="add-button disabled-button" disabled>
+                    Out of Stock
+                </button>
+
+            {% endif %}
+
+            <!-- VIEW CART -->
+
+            <a href="{% url 'cart_detail' %}" class="cart-link">
+                View Shopping Cart →
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <h2>ShopKart</h2>
+
+        <p>Your Online Shopping Destination</p>
+
+        <br>
+
+        <p>
+            Customer Support | Privacy Policy | Terms & Conditions
+        </p>
+
+        <br>
+
+        <p>
+            © 2026 ShopKart. All Rights Reserved.
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

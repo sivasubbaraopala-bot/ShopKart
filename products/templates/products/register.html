@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account - ShopKart</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            margin: 0;
+        }
+
+        .container {
+            width: 400px;
+            max-width: 90%;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2874f0;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #2874f0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #1258c7;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: #2874f0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .help {
+            color: #666;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Create Account</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+
+            <div class="error">
+                {{ form.non_field_errors }}
+            </div>
+
+        {% endif %}
+
+
+        <label>Customer Name</label>
+
+        {{ form.username }}
+
+        {% for error in form.username.errors %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+        {% endfor %}
+
+
+        <label>Password</label>
+
+        {{ form.password1 }}
+
+        {% for error in form.password1.errors %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+        {% endfor %}
+
+
+        <label>Confirm Password</label>
+
+        {{ form.password2 }}
+
+        {% for error in form.password2.errors %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+        {% endfor %}
+
+
+        <button type="submit">
+            Create Account
+        </button>
+
+    </form>
+
+
+    <div class="login-link">
+
+        Already have an account?
+
+        <a href="{% url 'login' %}">
+            Login
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopKart Checkout</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+        }
+
+        header {
+            background: #2874f0;
+            color: white;
+            padding: 20px 8%;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #ddd;
+        }
+
+        h2 { margin-top: 0; }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        textarea { min-height: 85px; }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            background: #fb641b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        .item {
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .total {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        @media(max-width: 700px) {
+            .container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>ShopKart</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Delivery Details</h2>
+
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Customer Name</label>
+            <input type="text" name="customer_name" required>
+
+            <label>Mobile Number</label>
+            <input
+                type="tel"
+                name="phone"
+                pattern="[0-9]{10,15}"
+                required
+            >
+
+            <label>Email</label>
+            <input type="email" name="email">
+
+            <label>Address</label>
+            <textarea name="address" required></textarea>
+
+            <label>City</label>
+            <input type="text" name="city" required>
+
+            <label>State</label>
+            <input type="text" name="state" required>
+
+            <label>PIN Code</label>
+            <input
+                type="text"
+                name="postal_code"
+                pattern="[0-9]{6}"
+                required
+            >
+
+            <button type="submit">Continue to Payment</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Order Summary</h2>
+
+        {% for item in cart_items %}
+            <div class="item">
+                <strong>{{ item.product.name }}</strong>
+                <p>Quantity: {{ item.quantity }}</p>
+                <p>Subtotal: ₹{{ item.subtotal }}</p>
+            </div>
+        {% endfor %}
+
+        <div class="total">
+            Total: ₹{{ grand_total }}
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

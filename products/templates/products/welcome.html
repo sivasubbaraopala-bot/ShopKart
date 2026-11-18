@@ -1,0 +1,55 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopKart | Online Shopping</title>
+    <link rel="stylesheet" href="{% static 'products/style.css' %}">
+</head>
+<body>
+
+<div class="welcome-page">
+
+    <div class="welcome-card">
+
+        <div class="welcome-content">
+
+            <div class="brand-name">SHOPKART</div>
+
+            <h1>Welcome to Your Shopping Destination!</h1>
+
+            <p>
+                Discover the latest smartphones, laptops,
+                electronics and much more. Enjoy a simple,
+                convenient and secure shopping experience.
+            </p>
+
+            <div class="action-buttons">
+
+                <a href="{% url 'login' %}" class="primary-btn">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}" class="secondary-btn">
+                    Create Account
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="welcome-image">
+            <img
+                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900"
+                alt="Online shopping"
+            >
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
